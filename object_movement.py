@@ -8,8 +8,8 @@ from imutils.video import VideoStream
 import numpy as np
 import argparse
 import cv2
-import imutils
 import time
+import imutils
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -19,10 +19,11 @@ ap.add_argument("-b", "--buffer", type=int, default=32,
 	help="max buffer size")
 args = vars(ap.parse_args())
 
-# define the lower and upper boundaries of the marker (here green color)
+# define the lower and upper boundaries of the marker (see picture of the marker)
 # in the HSV color space
-markerLower = (29, 86, 6)
-markerUpper = (64, 255, 255)
+
+markerLower = (118, 100, 100)
+markerUpper = (138, 255, 255)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
