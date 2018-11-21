@@ -4,6 +4,7 @@
 
 # import the necessary packages
 from collections import deque
+from pyautogui import *
 from imutils.video import VideoStream
 import numpy as np
 import argparse
@@ -20,10 +21,11 @@ ap.add_argument("-b", "--buffer", type=int, default=32,
 args = vars(ap.parse_args())
 
 # define the lower and upper boundaries of the marker (see picture of the marker)
+#   https://imagecolorpicker.com/
 # in the HSV color space
 
-markerLower = (118, 100, 100)
-markerUpper = (138, 255, 255)
+markerLower = (100, 100, 100)
+markerUpper = (180, 255, 255)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
@@ -117,7 +119,7 @@ while True:
 			# ensure there is significant movement in the
 			# x-direction
 			if np.abs(dX) > 20:
-				dirX = "Left" if np.sign(dX) == 1 else "Right"
+				dirX = "Right" if np.sign(dX) == 1 else "Left"
 
 			# ensure there is significant movement in the
 			# y-direction
@@ -145,10 +147,19 @@ while True:
 		(10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX,
 		0.35, (0, 0, 255), 1)
 
+	#left and right movement using direction information
+	#left means going to the left tab on internet
+	#right means going to the right tab on internet
+	if dirX =="Left":
+        pyautogui.hotkey('ctrl', 'shift', 'tab')
+    else:
+        pyautogui.hotkey('ctrl', 'tab')
+
 	# show the frame to our screen and increment the frame counter
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
 	counter += 1
+}
 
 	# if the 'q' key is pressed, stop the loop
 	if key == ord("q"):
