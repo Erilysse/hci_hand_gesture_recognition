@@ -1,7 +1,3 @@
-# USAGE
-# python object_movement.py --video object_tracking_example.mp4
-# python object_movement.py
-
 # import the necessary packages
 from collections import deque
 import pyautogui
@@ -37,13 +33,8 @@ direction = ""
 
 # if a video path was not supplied, grab the reference
 # to the webcam
-if not args.get("video", False):
-	vs = VideoStream(src=0).start()
-# id config depth sense	: 0000.0014.0000.004.000.000.000.000.000
-
-# otherwise, grab a reference to the video file
-else:
-	vs = cv2.VideoCapture(args["video"])
+cam = cv2.VideoCapture(1)
+cv2.namedWindow("test")
 
 # allow the camera or video file to warm up
 time.sleep(2.0)
@@ -51,11 +42,11 @@ time.sleep(2.0)
 # keep looping
 while True:
 	# grab the current frame
-	frame = vs.read()
-
-	# handle the frame from VideoCapture or VideoStream
-	frame = frame[1] if args.get("video", False) else frame
-
+	ret, frame = cam.read()
+	cv2.imshow("test", frame)
+	if not ret:
+		break
+	
 	# if we are viewing a video and we did not grab a frame,
 	# then we have reached the end of the video
 	if frame is None:
@@ -127,14 +118,18 @@ while True:
 			if np.abs(dY) > 20:
 				dirY = "Up" if np.sign(dY) == 1 else "Down"
 
-			# handle when both directions are non-empty
+			"""# handle when both directions are non-empty
 			if dirX != "" and dirY != "":
 				direction = "{}-{}".format(dirY, dirX)
 
 			# otherwise, only one direction is non-empty
 			else:
 				direction = dirX if dirX != "" else dirY
+			"""
 
+			if dirX !="":
+				direction = dirX
+			
 		# otherwise, compute the thickness of the line and
 		# draw the connecting lines
 		thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
@@ -151,16 +146,15 @@ while True:
 	#left and right movement using direction information
 	#left means going to the left tab on internet
 	#right means going to the right tab on internet
-	if direction =="Left":
-		pyautogui.hotkey('ctrl', 'shift', 'tab')
-		time.sleep(1)
-	elif direction == "Right":
-		pyautogui.hotkey('ctrl', 'tab')
-		direction = ""
-		time.sleep(1)
-	else:
-		pass
-
+	i=True
+	while i:
+		if direction =="Left":
+			pyautogui.hotkey('ctrl', 'shift', 'tab')
+		elif direction == "Right":
+			pyautogui.hotkey('ctrl', 'tab')
+		else:
+			pass
+		i=False
 	# show the frame to our screen and increment the frame counter
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
@@ -170,13 +164,8 @@ while True:
 	if key == ord("q"):
 		break
 
-# if we are not using a video file, stop the camera video stream
-if not args.get("video", False):
-	vs.stop()
-
-# otherwise, release the camera
-else:
-	vs.release()
+# release the camera
+cam.release()
 
 # close all windows
 cv2.destroyAllWindows()
