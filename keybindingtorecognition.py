@@ -1,4 +1,5 @@
 from pyautogui import *
+pyautogui.PAUSE = 2.5
 import numpy as m
 from object_movement import dirX, dirY
 
@@ -14,12 +15,13 @@ else:
 #close or far away the camera using depth information
 #close means open a new tab on internet
 #far means close the current tab on internet
-if dirD == "Close":
+"""if dirD == "Close":
     pyautogui.hotkey('ctrl', 't')
 else:
         pyautogui.hotkey('ctrl', 'w')
 
 #doing a punch with gesture recognition
 #you can change between applications
-if gesture == "punch"
+if gesture == "punch":
     pytaugui.hotkey('alt','tab')
+"""
