@@ -37,7 +37,8 @@ direction = ""
 # if a video path was not supplied, grab the reference
 # to the webcam
 if not args.get("video", False):
-	vs = VideoStream(src=0).start()
+	vs = VideoStream(src=1).start()
+    #vs = cv2.VideoCapture(1)
 # id config depth sense	: 0000.0014.0000.004.000.000.000.000.000
 
 # otherwise, grab a reference to the video file
@@ -120,12 +121,12 @@ while True:
 
 			# ensure there is significant movement in the
 			# x-direction
-            if np.abs(dX) > 80:
+            if np.abs(dX) > 160:
                 dirX = "Right" if np.sign(dX) == 1 else "Left"
 
 			# ensure there is significant movement in the
 			# y-direction
-            if np.abs(dY) > 20:
+            if np.abs(dY) > 160:
                 dirY = "Up" if np.sign(dY) == 1 else "Down"
 
 			# handle when both directions are non-empty
