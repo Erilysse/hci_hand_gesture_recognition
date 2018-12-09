@@ -20,7 +20,7 @@ args = vars(ap.parse_args())
 #   https://imagecolorpicker.com/
 # in the HSV color space
 
-markerLower = (110, 100, 100)
+markerLower = (100, 100, 100)
 markerUpper = (180, 255, 255)
 
 # initialize the list of tracked points, the frame counter,
@@ -153,11 +153,11 @@ while True:
 	#left means going to the left tab on internet
 	#right means going to the right tab on internet
     if dirX =="Left":
-        pyautogui.hotkey('ctrl', 'shift', 'tab')
+        pyautogui.hotkey('alt', 'left')
         pts = deque(maxlen=args["buffer"])
         dirX = ""
     elif dirX =="Right":
-        pyautogui.hotkey('ctrl', 'tab')
+        pyautogui.hotkey('alt', 'right')
         pts = deque(maxlen=args["buffer"])
         dirX = ""
 	# show the frame to our screen and increment the frame counter
